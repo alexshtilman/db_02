@@ -1,0 +1,35 @@
+use('java36')
+
+db.students.find(
+    {
+        marks:
+        {
+            $elemMatch:
+            {
+                subject: 'Java',
+            }
+            , $elemMatch:
+            {
+                subject: 'React',
+            }
+        }
+    },
+    {
+        _id: 0,
+        name: 1,
+        marks: 1
+    }
+).map((rec) => {
+    return {
+        name: rec.name,
+        pass: rec.marks.filter(m => m.subject == 'Java')[0].mark > rec.marks.filter(m => m.subject == 'React')[0].mark
+    }
+}).toArray()
+    .filter((m) => m.pass)
+    .map(m => {
+        return {
+            name: m.name
+        }
+    }
+    )
+

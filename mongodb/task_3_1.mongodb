@@ -1,0 +1,11 @@
+use('java36')
+db.students.find({
+    $expr: {
+        $gt: [{ $arrayElemAt: ["$marks.mark", { "$indexOfArray": ["$marks.subject", "React"] }] }, {
+            $arrayElemAt: ["$marks.mark", {
+                "$indexOfArray":
+                    ["$marks.subject", "Java"]
+            }]
+        }]
+    }
+})

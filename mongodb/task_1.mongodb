@@ -1,0 +1,34 @@
+use('java36')
+db.students.find(
+    {
+        marks:
+        {
+            $elemMatch:
+            {
+                subject: 'Java',
+                mark:
+                {
+                    $gte: 85
+                }
+            },
+            $not: {
+                $exists: true,
+                $elemMatch:
+                {
+                    subject:
+                    {
+                        $ne: 'Java'
+                    },
+                    mark:
+                    {
+                        $gt: 85
+                    }
+                }
+            }
+        }
+    },
+    {
+        _id: 0,
+        name: 1
+    }
+)
